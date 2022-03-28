@@ -7,13 +7,12 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>ar.edu.itba.paw</groupId>
   <artifactId>interfaces</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <dependencies>
     <dependency>
-      <groupId>ar.edu.itba.paw</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>model</artifactId>
       <version>${project.parent.version}</version>
     </dependency>

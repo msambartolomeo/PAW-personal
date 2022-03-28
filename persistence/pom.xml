@@ -12,7 +12,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>ar.edu.itba.paw</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>interfaces</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
