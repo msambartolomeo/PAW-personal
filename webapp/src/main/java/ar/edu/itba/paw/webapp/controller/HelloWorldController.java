@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.UserService;
+import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,4 +34,11 @@ public class HelloWorldController {
         mav.addObject("user", userService.getUserById(userId).orElseThrow(UserNotFoundException::new));
         return mav;
     }
+
+    @RequestMapping("/create")
+    public ModelAndView create(@RequestParam(value = "name") final String username) {
+            final User user = userService.create(username, "1234");
+            return new ModelAndView("redirect:/?userId=" + user.getId());
+    }
+
 }

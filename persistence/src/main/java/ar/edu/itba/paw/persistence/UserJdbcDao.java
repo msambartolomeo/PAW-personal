@@ -25,13 +25,18 @@ public class UserJdbcDao implements UserDao {
     public UserJdbcDao(final DataSource ds){
         jdbcTemplate = new JdbcTemplate(ds);
         jdbcInsert = new SimpleJdbcInsert(ds)
-                .withTableName("user")
+                .withTableName("users")
                 .usingGeneratedKeyColumns("userId");
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS users (" +
+                "userId SERIAL PRIMARY KEY," +
+                "username varchar(100) UNIQUE NOT NULL," +
+                "password varchar(100) NOT NULL" +
+                ")");
     }
 
     @Override
     public Optional<User> getUserById(long id) {
-        List<User> query = jdbcTemplate.query("SELECT * FROM User WHERE userId = ?", new Object[]{id}, ROW_MAPPER);
+        List<User> query = jdbcTemplate.query("SELECT * FROM users WHERE userId = ?", new Object[]{id}, ROW_MAPPER);
 
         return query.stream().findFirst();
     }
@@ -49,6 +54,6 @@ public class UserJdbcDao implements UserDao {
 
     @Override
     public List<User> getAll(int page) {
-        return jdbcTemplate.query("SELECT * FROM user LIMIT 10 OFFSET ?", new Object[] { (page - 1) * 10}, ROW_MAPPER);
+        return jdbcTemplate.query("SELECT * FROM users LIMIT 10 OFFSET ?", new Object[] { (page - 1) * 10}, ROW_MAPPER);
     }
 }
