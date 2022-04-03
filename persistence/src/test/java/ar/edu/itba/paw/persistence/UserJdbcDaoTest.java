@@ -5,22 +5,33 @@ import org.hsqldb.jdbc.JDBCDriver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
+import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = TestConfig.class)
 public class UserJdbcDaoTest {
 
     private UserJdbcDao userDao;
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert jdbcInsert;
+    @Autowired
+    private DataSource ds;
+
     private final static String USERNAME = "juan";
     private final static String PASSWORD = "1234";
     private final static String USER_TABLE = "users";
@@ -28,21 +39,11 @@ public class UserJdbcDaoTest {
 
     @Before
     public void setUp() {
-        final SimpleDriverDataSource ds = new SimpleDriverDataSource();
-        ds.setDriverClass(JDBCDriver.class);
-
-        ds.setUrl("jdbc:hsqldb:mem:paw");
-        ds.setUsername("ha");
-        ds.setPassword("");
-
         userDao = new UserJdbcDao(ds);
         jdbcTemplate = new JdbcTemplate(ds);
-        jdbcInsert = new SimpleJdbcInsert(ds).withTableName(USER_TABLE).usingGeneratedKeyColumns(ID);
-        jdbcTemplate.execute("CREATE TABLE " + USER_TABLE + " (" +
-                ID + " INTEGER IDENTITY PRIMARY KEY," +
-                "username varchar(100) UNIQUE NOT NULL," +
-                "password varchar(100) NOT NULL" +
-                ")");
+        jdbcInsert = new SimpleJdbcInsert(ds)
+                .withTableName(USER_TABLE)
+                .usingGeneratedKeyColumns(ID);
     }
 
     @After
