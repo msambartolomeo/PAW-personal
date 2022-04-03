@@ -48,7 +48,7 @@ public class UserJdbcDaoTest {
 
     @After
     public void tearDown() {
-        JdbcTestUtils.dropTables(jdbcTemplate, USER_TABLE);
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, USER_TABLE);
     }
 
     @Test
@@ -63,7 +63,6 @@ public class UserJdbcDaoTest {
     @Test
     public void testGetUserByIdDoesntExist() {
         //1. setup
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, USER_TABLE);
         final Map<String, Object> userData = new HashMap<>();
         userData.put("username", USERNAME);
         userData.put("password", PASSWORD);
