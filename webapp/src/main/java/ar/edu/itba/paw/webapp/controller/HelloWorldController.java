@@ -4,11 +4,9 @@ import ar.edu.itba.paw.interfaces.UserService;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -39,6 +37,12 @@ public class HelloWorldController {
     public ModelAndView create(@RequestParam(value = "name") final String username) {
             final User user = userService.create(username, "1234");
             return new ModelAndView("redirect:/?userId=" + user.getId());
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    public ModelAndView handleUserNotFoundException() {
+        return new ModelAndView("error/404");
     }
 
 }
