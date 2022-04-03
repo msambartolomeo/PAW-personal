@@ -2,25 +2,22 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.interfaces.UserDao;
 import ar.edu.itba.paw.model.User;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 
+import static org.junit.Assert.assertEquals;
 
+@RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
 
-    private UserServiceImpl userService;
+    @InjectMocks
+    private UserServiceImpl userService = new UserServiceImpl();
+    @Mock
     private UserDao userDao;
-
-    @Before
-    public void setUp() {
-        userDao = Mockito.mock(UserDao.class);
-        // devuelve valores default
-        // nullable => null
-        // Number => 0
-        // boolean => false
-        userService = new UserServiceImpl();
-    }
 
     @Test
     public void testCreateUser() {
@@ -29,5 +26,7 @@ public class UserServiceImplTest {
 
 
         User u = userService.create("juan", "1234");
+
+        assertEquals(user, u);
     }
 }
