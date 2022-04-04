@@ -33,10 +33,18 @@ public class HelloWorldController {
         return mav;
     }
 
-    @RequestMapping("/create")
-    public ModelAndView create(@RequestParam(value = "name") final String username) {
-            final User user = userService.create(username, "1234");
-            return new ModelAndView("redirect:/?userId=" + user.getId());
+    @RequestMapping(value = "/create", method = { RequestMethod.GET })
+    public ModelAndView createForm() {
+        return new ModelAndView("helloworld/register");
+    }
+
+    @RequestMapping(value = "/create", method = { RequestMethod.POST })
+    public ModelAndView create(@RequestParam(value = "user") final String username, @RequestParam(value = "pass") final String password) {
+
+
+
+        final User user = userService.create(username, password);
+        return new ModelAndView("redirect:/profile/" + user.getId());
     }
 
     @ExceptionHandler(UserNotFoundException.class)
