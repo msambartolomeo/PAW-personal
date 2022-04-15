@@ -24,4 +24,9 @@ public class UserServiceImpl implements UserService {
         // TODO validate username and password
         return userDao.create(username, password);
     }
+
+    @Override
+    public Optional<User> findByName(String username) {
+        return userDao.findByName(username);
+    }
 }
