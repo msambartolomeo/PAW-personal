@@ -30,7 +30,6 @@ public class PawUserDetailsService implements UserDetailsService {
         final Collection<GrantedAuthority> roles = new ArrayList<>();
         roles.add(new SimpleGrantedAuthority("ROLE_USER"));
         // if (user.admin) add admin role
-        new org.springframework.security.core.userdetails.User(username, user.getPassword(), roles);
-        return null;
+        return new org.springframework.security.core.userdetails.User(username, user.getPassword(), roles);
     }
 }
