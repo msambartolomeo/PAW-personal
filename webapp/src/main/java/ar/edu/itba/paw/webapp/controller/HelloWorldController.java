@@ -30,6 +30,11 @@ public class HelloWorldController {
         return mav;
     }
 
+    @RequestMapping("/login")
+    public ModelAndView login() {
+        return new ModelAndView("helloworld/login");
+    }
+
     @RequestMapping(value = "/profile/{userId}", method = { RequestMethod.GET, RequestMethod.HEAD })
     public ModelAndView userProfile(@PathVariable("userId") final long userId) {
         final ModelAndView mav = new ModelAndView("index");
