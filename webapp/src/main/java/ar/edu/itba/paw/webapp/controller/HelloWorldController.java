@@ -4,6 +4,8 @@ import ar.edu.itba.paw.interfaces.UserService;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.exception.UserNotFoundException;
 import ar.edu.itba.paw.webapp.form.UserForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,7 @@ import javax.validation.Valid;
 @Controller
 public class HelloWorldController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(HelloWorldController.class);
     private final UserService userService;
 
     @Autowired
@@ -31,6 +34,13 @@ public class HelloWorldController {
 
     @RequestMapping("/login")
     public ModelAndView login() {
+        LOGGER.debug("this is debug");
+        LOGGER.warn("this is warn");
+        try {
+            throw new Exception("this is an exception");
+        } catch (Exception e) {
+            LOGGER.error("this is error", e);
+        }
         return new ModelAndView("helloworld/login");
     }
 
