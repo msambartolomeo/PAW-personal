@@ -3,8 +3,7 @@ package ar.edu.itba.paw.model;
 import javax.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "users_inheritance")
 public class UserInheritance {
     @Id
