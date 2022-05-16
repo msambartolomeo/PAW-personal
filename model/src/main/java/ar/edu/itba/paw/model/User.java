@@ -60,4 +60,8 @@ public class User {
         reportedIssues.add(issue);
         return issue;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

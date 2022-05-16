@@ -22,11 +22,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public Optional<User> getUserById(long id) {
-        Optional<User> user = userDao.getUserById(id);
-
-        user.ifPresent(u -> u.reportNewIssue("issue creado por " + u.getUsername() + " " + Math.round(Math.random() * 5000), Priority.MEDIUM));
-
-        return user;
+        return userDao.getUserById(id);
     }
 
     @Transactional
@@ -39,5 +35,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findByName(String username) {
         return userDao.findByName(username);
+    }
+
+    @Transactional
+    @Override
+    public void updateUserPassword(User user, String password) {
+        user = userDao.merge(user);
+        user.setPassword(passwordEncoder.encode(password));
     }
 }

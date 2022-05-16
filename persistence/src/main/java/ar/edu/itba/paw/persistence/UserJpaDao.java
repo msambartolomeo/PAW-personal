@@ -43,4 +43,9 @@ public class UserJpaDao implements UserDao {
         // return query.getResultList().stream().findFirst();
         return Optional.ofNullable(query.getSingleResult());
     }
+
+    @Override
+    public User merge(User user) {
+        return em.merge(user);
+    }
 }

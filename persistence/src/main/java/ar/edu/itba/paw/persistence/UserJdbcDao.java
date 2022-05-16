@@ -58,4 +58,9 @@ public class UserJdbcDao implements UserDao {
 
         return query.stream().findFirst();
     }
+
+    @Override
+    public User merge(User user) {
+        return null;
+    }
 }

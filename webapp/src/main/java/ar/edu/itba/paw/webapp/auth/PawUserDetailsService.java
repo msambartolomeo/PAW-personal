@@ -8,19 +8,24 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.regex.Pattern;
 
 @Component
 public class PawUserDetailsService implements UserDetailsService {
 
+    private static final Pattern BCRYPT_PATTERN = Pattern.compile("\\A\\$2a?\\$\\d\\d\\$[./0-9A-Za-z]{53}");
     private final UserService us;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public PawUserDetailsService(final UserService us) {
+    public PawUserDetailsService(final UserService us, PasswordEncoder passwordEncoder) {
         this.us = us;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -29,7 +34,15 @@ public class PawUserDetailsService implements UserDetailsService {
 
         final Collection<GrantedAuthority> roles = new ArrayList<>();
         roles.add(new SimpleGrantedAuthority("ROLE_USER"));
-        // if (user.admin) add admin role
-        return new org.springframework.security.core.userdetails.User(username, user.getPassword(), roles);
+
+        String password = user.getPassword();
+
+        if (!BCRYPT_PATTERN.matcher(password).matches()) {
+            // update password in the db and try again
+            us.updateUserPassword(user, password);
+            return loadUserByUsername(username);
+        }
+
+        return new org.springframework.security.core.userdetails.User(username, password, roles);
     }
 }
