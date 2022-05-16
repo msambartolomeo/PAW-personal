@@ -90,7 +90,7 @@ public class WebConfig {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean entityFactory = new LocalContainerEntityManagerFactoryBean();
         entityFactory.setPackagesToScan("ar.edu.itba.paw.model");
         entityFactory.setDataSource(dataSource());
@@ -99,11 +99,11 @@ public class WebConfig {
 
         final Properties jpaProperties = new Properties();
         jpaProperties.setProperty("hibernate.hbm2ddl.auto", "update"); // BEST EFFORT para actualizar el esquema
-        jpaProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        jpaProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
 
         // Solamente para development, tiene que desaparecer en el server
         jpaProperties.setProperty("hibernate.show_sql", "true");
-        jpaProperties.setProperty("hibernate.format_sql", "true");
+        jpaProperties.setProperty("format_sql", "true");
 
         entityFactory.setJpaProperties(jpaProperties);
 
