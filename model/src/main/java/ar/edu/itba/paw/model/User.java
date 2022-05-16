@@ -10,9 +10,11 @@ public class User {
     @SequenceGenerator(allocationSize = 1, name = "users_userid_seq", sequenceName = "users_userid_seq")
     private Long userId;
     @Column(length = 100, nullable = false, unique = true)
-    private final String username;
+    private String username;
     @Column(length = 100, nullable = false)
-    private final String password;
+    private String password;
+
+    User() {}
 
     public User(String username, String password) {
         this.username = username;

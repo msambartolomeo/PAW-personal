@@ -36,11 +36,6 @@ public class HelloWorldController {
     public ModelAndView login() {
         LOGGER.debug("this is debug");
         LOGGER.warn("this is warn");
-        try {
-            throw new Exception("this is an exception");
-        } catch (Exception e) {
-            LOGGER.error("this is error", e);
-        }
         return new ModelAndView("helloworld/login");
     }
 
