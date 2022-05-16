@@ -25,7 +25,7 @@ public class UserJpaDao implements UserDao {
     public User create(String username, String password) {
         final User user = new User(username, password);
         em.persist(user);
-        return null;
+        return user;
     }
 
     @Override
