@@ -2,6 +2,7 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.interfaces.UserDao;
 import ar.edu.itba.paw.interfaces.UserService;
+import ar.edu.itba.paw.model.Priority;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,9 +19,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
+    @Transactional
     @Override
     public Optional<User> getUserById(long id) {
-        return userDao.getUserById(id);
+        Optional<User> user = userDao.getUserById(id);
+
+        user.ifPresent(u -> u.reportNewIssue("issue creado por " + u.getUsername() + " " + Math.round(Math.random() * 5000), Priority.MEDIUM));
+
+        return user;
     }
 
     @Transactional

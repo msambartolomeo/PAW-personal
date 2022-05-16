@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -13,6 +14,12 @@ public class User {
     private String username;
     @Column(length = 100, nullable = false)
     private String password;
+
+    @OneToMany(mappedBy = "assignedTo")
+    private List<Issue> assignedIssues;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "reportedBy")
+    private List<Issue> reportedIssues;
 
     User() {}
 
@@ -38,5 +45,19 @@ public class User {
 
     public Long getUserId() {
         return userId;
+    }
+
+    public List<Issue> getAssignedIssues() {
+        return assignedIssues;
+    }
+
+    public List<Issue> getReportedIssues() {
+        return reportedIssues;
+    }
+
+    public Issue reportNewIssue(String description, Priority priority) {
+        Issue issue = new Issue(description, this, priority);
+        reportedIssues.add(issue);
+        return issue;
     }
 }
