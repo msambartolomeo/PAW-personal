@@ -6,6 +6,6 @@
 <html>
     <body>
         <h2><spring:message code="user.greeting" arguments="${user.username}" htmlEscape="true"/></h2>
-        <h2><spring:message code="user.id" arguments="${user.id}"/></h2>
+        <h2><spring:message code="user.id" arguments="${user.userId}"/></h2>
     </body>
 </html>
