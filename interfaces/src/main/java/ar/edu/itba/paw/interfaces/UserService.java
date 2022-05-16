@@ -2,6 +2,7 @@ package ar.edu.itba.paw.interfaces;
 
 import ar.edu.itba.paw.model.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
@@ -12,4 +13,6 @@ public interface UserService {
     Optional<User> findByName(String username);
 
     void updateUserPassword(User user, String password);
+
+    List<User> getAll(int page);
 }

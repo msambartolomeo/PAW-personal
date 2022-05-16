@@ -2,13 +2,13 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.interfaces.UserDao;
 import ar.edu.itba.paw.interfaces.UserService;
-import ar.edu.itba.paw.model.Priority;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,5 +42,10 @@ public class UserServiceImpl implements UserService {
     public void updateUserPassword(User user, String password) {
         user = userDao.merge(user);
         user.setPassword(passwordEncoder.encode(password));
+    }
+
+    @Override
+    public List<User> getAll(int page) {
+        return userDao.getAll(page);
     }
 }

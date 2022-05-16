@@ -29,6 +29,7 @@ public class HelloWorldController {
     public ModelAndView helloWorld(@RequestParam(name = "userId", defaultValue = "1") final long userId) {
         final ModelAndView mav = new ModelAndView("index");
         mav.addObject("user", userService.getUserById(userId).orElseThrow(UserNotFoundException::new));
+        mav.addObject("allusers", userService.getAll(0));
         return mav;
     }
 

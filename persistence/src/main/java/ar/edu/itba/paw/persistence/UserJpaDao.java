@@ -6,9 +6,11 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class UserJpaDao implements UserDao {
@@ -30,9 +32,14 @@ public class UserJpaDao implements UserDao {
 
     @Override
     public List<User> getAll(int page) {
-        final TypedQuery<User> query = em.createQuery("FROM User as u", User.class);
-        query.setFirstResult(page * 10);
-        query.setMaxResults(10);
+        final Query idQuery = em.createNativeQuery("SELECT userid FROM users LIMIT 10 OFFSET :offset");
+        idQuery.setParameter("offset", page * 10);
+        @SuppressWarnings("unchecked")
+        List<Long> ids = (List<Long>) idQuery.getResultList().stream().map(o -> ((Integer) o).longValue()).collect(Collectors.toList());
+
+        final TypedQuery<User> query = em.createQuery("FROM User WHERE userId IN :ids", User.class);
+        query.setParameter("ids", ids);
+
         return query.getResultList();
     }
 
