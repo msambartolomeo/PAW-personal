@@ -3,9 +3,9 @@ package ar.edu.itba.paw.model;
 import javax.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Table(name = "users_inheritance")
-public class UserInheritance {
+public abstract class UserInheritance {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_inheritance_userid_seq")
     @SequenceGenerator(allocationSize = 1, name = "users_inheritance_userid_seq", sequenceName = "users_inheritance_userid_seq")
