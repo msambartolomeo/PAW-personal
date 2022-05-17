@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.ws.rs.HttpMethod;
 import java.util.concurrent.TimeUnit;
 
 @ComponentScan({ "ar.edu.itba.paw.webapp.auth" })
@@ -38,9 +39,10 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement()
                 .invalidSessionUrl("/login")
             .and().authorizeRequests()
-                .antMatchers("/login", "/create").anonymous()
-                .antMatchers("/post/edit").hasRole("EDITOR")
-                .antMatchers("/**").authenticated()
+//                .antMatchers("/login").anonymous()
+//                .antMatchers(HttpMethod.POST, "/users").anonymous()
+//                .antMatchers(HttpMethod.GET, "/users").anonymous()
+                .antMatchers("/**").permitAll()
             .and().formLogin()
                 .usernameParameter("username")
                 .passwordParameter("password")
