@@ -15,4 +15,6 @@ public interface UserDao {
     Optional<User> findByName(String name);
 
     User merge(User user);
+
+    void deleteById(long id);
 }

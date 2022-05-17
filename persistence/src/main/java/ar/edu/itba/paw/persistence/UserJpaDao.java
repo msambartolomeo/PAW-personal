@@ -55,4 +55,9 @@ public class UserJpaDao implements UserDao {
     public User merge(User user) {
         return em.merge(user);
     }
+
+    @Override
+    public void deleteById(long id) {
+        getUserById(id).ifPresent(user -> em.remove(user));
+    }
 }

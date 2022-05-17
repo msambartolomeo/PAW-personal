@@ -15,4 +15,6 @@ public interface UserService {
     void updateUserPassword(User user, String password);
 
     List<User> getAll(int page);
+
+    void deleteById(long id);
 }

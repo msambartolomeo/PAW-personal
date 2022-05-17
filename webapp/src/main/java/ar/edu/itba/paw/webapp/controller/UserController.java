@@ -63,4 +63,11 @@ public class UserController {
 
         return Response.status(Response.Status.NOT_FOUND).build();
     }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteUser(@PathParam("id") long id) {
+        userService.deleteById(id);
+        return Response.noContent().build();
+    }
 }

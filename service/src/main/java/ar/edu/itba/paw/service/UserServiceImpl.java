@@ -48,4 +48,10 @@ public class UserServiceImpl implements UserService {
     public List<User> getAll(int page) {
         return userDao.getAll(page);
     }
+
+    @Transactional
+    @Override
+    public void deleteById(long id) {
+        userDao.deleteById(id);
+    }
 }
