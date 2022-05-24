@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.webapp.config;
 
+import ar.edu.itba.paw.webapp.auth.JwtFilter;
 import ar.edu.itba.paw.webapp.auth.PawUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,8 +11,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 import javax.ws.rs.HttpMethod;
 import java.util.concurrent.TimeUnit;
@@ -37,32 +41,27 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.sessionManagement()
-                .invalidSessionUrl("/login")
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and().headers().cacheControl().disable()
             .and().authorizeRequests()
 //                .antMatchers("/login").anonymous()
 //                .antMatchers(HttpMethod.POST, "/users").anonymous()
 //                .antMatchers(HttpMethod.GET, "/users").anonymous()
                 .antMatchers("/**").permitAll()
-            .and().formLogin()
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .defaultSuccessUrl("/", false)
-                .loginPage("/login")
-            .and().rememberMe()
-                .rememberMeParameter("rememberme")
-                .userDetailsService(userDetailsService)
-                .key("remembermekeyreseguraynohaynadamejorvaseriamejorponerlaenpropertiesperobuenonoesimportante")
-                .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
-            .and().logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
             .and().exceptionHandling()
                 .accessDeniedPage("/403")
-            .and().csrf().disable();
+            .and().addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class).csrf().disable();
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/resources/**");
+    }
+
+    @Bean
+    public CorsConfiguration corsConfiguration() {
+        CorsConfiguration cors = new CorsConfiguration();
+        cors.addAllowedOrigin("http://localhost:9000");
+        return cors;
     }
 }
