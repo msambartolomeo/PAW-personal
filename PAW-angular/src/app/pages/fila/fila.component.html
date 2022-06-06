@@ -1,0 +1,6 @@
+<div class="container">
+    <h1>Estamos en la fila esperando</h1>
+    <p>Tenemos adelante {{counter}} personas</p>
+    <h1 *ngIf="counter<5">Elegir gaseosa</h1>
+    <button (click)="colarse()">Colarse</button>
+</div>
