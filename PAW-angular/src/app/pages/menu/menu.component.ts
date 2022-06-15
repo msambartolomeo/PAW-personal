@@ -25,7 +25,7 @@ export class MenuComponent implements OnInit {
   price = 0;
 
   ngOnInit(): void {
-    this.api.getPrices().subscribe((data) => {
+    this.dataLayer.getPrices().subscribe((data) => {
         this.price = data;
         console.log(data);
       }

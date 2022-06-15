@@ -1,3 +1,8 @@
 <p>este es el menu para {{dataLayer.getUser()?.name}}</p>
 
-<p *ngFor="ite"></p>
+<!-- le pedis async -->
+<h1>{{ this.dataLayer.getPrices() | async }}</h1>
+
+<p *ngFor="let item of menu">
+    {{item.name + ' ' + item.price + ' ' + this.price}}
+</p>

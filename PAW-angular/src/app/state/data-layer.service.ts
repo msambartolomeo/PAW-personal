@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { User } from '../models/User';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,8 +9,20 @@ import { User } from '../models/User';
 export class DataLayerService {
 
   user: User | undefined;
+  // userBs = new BehaviorSubject<User>(undefined);
+  price = new BehaviorSubject<number>(0);
 
-  constructor() { }
+  constructor(
+    private api: ApiService
+  ) {
+    this.api.getPrices().subscribe((data) => {
+      this.price.next(data);
+    })
+  }
+
+  getPrices() {
+    return this.price.asObservable();
+  }
 
   getUser() {
     return this.user;
