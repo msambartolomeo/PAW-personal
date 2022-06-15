@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataLayerService } from 'src/app/state/data-layer.service';
 
 @Component({
   selector: 'app-menu',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public dataLayer: DataLayerService  
+  ) { }
 
   ngOnInit(): void {
   }

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DataLayerService } from 'src/app/state/data-layer.service';
 
 @Component({
   selector: 'app-fila',
@@ -9,13 +10,16 @@ import { Router } from '@angular/router';
 export class FilaComponent implements OnInit {
 
   @Input()
-  counter = 15;
+  counter = 1;
 
   // Cualquier parametro aca es inyectado
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    public dataLayer: DataLayerService  
+  ) { }
 
   ngOnInit(): void {
-
+    this.dataLayer.setUser('mauro');
   }
 
   colarse() {
